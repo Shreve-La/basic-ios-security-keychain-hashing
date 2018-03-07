@@ -100,6 +100,7 @@ final class AuthViewController: UIViewController {
   
   @IBAction func signInButtonPressed() {
     // sign in
+    signIn()
   }
   
   // MARK: - Helpers
@@ -118,6 +119,26 @@ final class AuthViewController: UIViewController {
       object: nil
     )
   }
+  
+  private func signIn() {
+    // 1
+    view.endEditing(true)
+    
+    // 2
+    guard let email = emailField.text, email.count > 0 else {
+      return
+    }
+    guard let password = passwordField.text, password.count > 0 else {
+      return
+    }
+    
+    // 3
+    let name = UIDevice.current.name
+    let user = User(name: name, email: email)
+  }
+  
+  
+  
   
   // MARK: - Notifications
   
@@ -175,7 +196,7 @@ extension AuthViewController: UITextFieldDelegate {
     case TextFieldTag.email.rawValue:
       passwordField.becomeFirstResponder()
     case TextFieldTag.password.rawValue:
-      break
+      signIn()
     default:
       return false
     }
