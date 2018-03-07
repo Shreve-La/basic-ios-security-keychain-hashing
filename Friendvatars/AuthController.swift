@@ -29,9 +29,17 @@
 import Foundation
 
 final class AuthController {
-  
+  static let serviceName = "FriendvatarsService"
   static var isSignedIn: Bool {
     return false
   }
-  
+  class func passwordHash(from email: String, password: String) -> String {
+    let salt = "x4vV8bGgqqmQwgCoyXFQj+(o.nUNQhVP7ND"
+    return "\(password).\(email).\(salt)".sha256()
+  }
+  class func signIn(_ user: User, password: String) throws {
+    let finalHash = passwordHash(from: user.email, password: password)
+    try KeychainPasswordItem(service: serviceName, account: user.email).savePassword(finalHash)
+    Settings.currentUser = user
+  }
 }

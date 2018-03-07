@@ -135,6 +135,13 @@ final class AuthViewController: UIViewController {
     // 3
     let name = UIDevice.current.name
     let user = User(name: name, email: email)
+
+    do {
+      try AuthController.signIn(user, password: password)
+    } catch {
+      print("Error signing in: \(error.localizedDescription)")
+    }
+  
   }
   
   
